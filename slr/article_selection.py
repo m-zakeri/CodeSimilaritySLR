@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 
-def merge_ieee_results_r2(path='../data/ieee_xplore_search_result_r2'):
+def merge_ieee_results_r2(path='../data/ieee_xplore_search_result_r2/raw/'):
     files = os.listdir(path)
     files = [os.path.join(path, f) for f in files if os.path.isfile(path + '/' + f)]  # Filtering only the files.
     print(*files, sep="\n")
@@ -16,11 +16,11 @@ def merge_ieee_results_r2(path='../data/ieee_xplore_search_result_r2'):
     for f in files:
         df1 = pd.read_csv(f)
         df = pd.concat([df, df1], ignore_index=True)
-    df.to_csv('../data/ieee_xplore_search_result_r2_all.csv')
+    df.to_csv('../data/ieee_xplore_search_results_r2/ieee_xplore_search_result_r2_all.csv')
 
 
 def remove_duplicated_papers():
-    df1_path = '../data/ieee_xplore_search_result_r2_all.csv'
+    df1_path = '../data/ieee_xplore_search_results_r2/ieee_xplore_search_result_r2_all.csv'
     df2_path = '../data/slr_sheet_ps_R2_v1.xlsx'
     df1 = pd.read_csv(df1_path)
     df2 = pd.read_excel(df2_path, sheet_name='initial-articles')
@@ -39,11 +39,12 @@ def remove_duplicated_papers():
     df1['Duplicated'] = is_duplicated
     df1 = df1[df1['Duplicated'] == False]
     # df1.to_excel('../data/ieee_xplore_search_result_r2_all_annotated.xlsx', index=False)
-    df1.to_excel('../data/ieee_xplore_search_result_r2_all_non-duplicated.xlsx', index=False)
+    df1.to_excel('../data/ieee_xplore_search_results_r2/ieee_xplore_search_result_r2_all_non-duplicated.xlsx',
+                 index=False)
 
 
 def select_by_keywords():
-    df1_path = '../data/ieee_xplore_search_result_r2_all_non-duplicated_v2.xlsx'
+    df1_path = '../data/ieee_xplore_search_results_r2/ieee_xplore_search_result_r2_all_non-duplicated_v2.xlsx'
     df1 = pd.read_excel(df1_path, sheet_name='IEEE_R2_initial-articles')
     x = 0
     for index, row in df1.iterrows():
@@ -63,7 +64,7 @@ def select_by_keywords():
 
 
 def process_acm_digital_library():
-    df1_path = '../data/acm_digital_library_results_r2/acm_digital_library_r2_v2.xlsx'
+    df1_path = '../data/acm_digital_library_results_r2/raw/acm_digital_library_r2_v2.xlsx'
     columns = ['Journal', 'Year', 'Title', 'Booktitle', 'Publisher']
     df1 = pd.read_excel(df1_path, sheet_name='initial-articles_r2_all')
 
